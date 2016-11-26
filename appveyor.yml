@@ -1,0 +1,23 @@
+version: '{build}'
+clone_script:
+- cmd: >-
+    cd %APPVEYOR_BUILD_FOLDER%
+
+    git clone -q --branch=3.3.6 --depth 1 https://github.com/sass/libsass.git
+
+    cd libsass
+
+    git clone -q --branch=3.3.6 --depth 1 https://github.com/sass/sassc.git
+
+    cd %APPVEYOR_BUILD_FOLDER%
+build_script:
+- cmd: >-
+    cd %APPVEYOR_BUILD_FOLDER%\libsass\sassc
+
+    "%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild" win\sassc.sln /p:Configuration=Release
+
+    cd bin
+
+    dir
+artifacts:
+- path: libsass\sassc\bin\sassc.exe
