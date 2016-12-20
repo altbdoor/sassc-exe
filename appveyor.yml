@@ -1,23 +1,27 @@
 version: '{build}'
+environment:
+  SASSC_BRANCH: 3.4.1
+  LIBSASS_BRANCH: 3.4.1
 clone_script:
 - cmd: >-
-    cd %APPVEYOR_BUILD_FOLDER%
-
-    git clone -q --branch=3.3.6 --depth 1 https://github.com/sass/libsass.git
+    git clone -q --branch=%LIBSASS_BRANCH% --depth 1 https://github.com/sass/libsass.git
 
     cd libsass
 
-    git clone -q --branch=3.3.6 --depth 1 https://github.com/sass/sassc.git
-
-    cd %APPVEYOR_BUILD_FOLDER%
+    git clone -q --branch=%SASSC_BRANCH% --depth 1 https://github.com/sass/sassc.git
 build_script:
 - cmd: >-
     cd %APPVEYOR_BUILD_FOLDER%\libsass\sassc
 
-    "%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild" win\sassc.sln /p:Configuration=Release
+    "%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild" win\sassc.sln /p:Configuration=Release /p:Platform=Win32
 
-    cd bin
+    copy bin\sassc.exe %APPVEYOR_BUILD_FOLDER%\sassc_win32.exe
 
-    dir
+    "%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild" win\sassc.sln /p:Configuration=Release /p:Platform=Win64
+
+    copy bin\sassc.exe %APPVEYOR_BUILD_FOLDER%\sassc_win64.exe
+
+test: off
 artifacts:
-- path: libsass\sassc\bin\sassc.exe
+- path: sassc_win32.exe
+- path: sassc_win64.exe
