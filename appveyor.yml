@@ -15,13 +15,13 @@ build_script:
 
     "%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild" win\sassc.sln /p:Configuration=Release /p:Platform=Win32
 
-    copy bin\sassc.exe %APPVEYOR_BUILD_FOLDER%\sassc_win32.exe
+    7z a %APPVEYOR_BUILD_FOLDER%\sassc_win32.zip %cd%\bin\sassc.exe > nul
 
     "%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild" win\sassc.sln /p:Configuration=Release /p:Platform=Win64
 
-    copy bin\sassc.exe %APPVEYOR_BUILD_FOLDER%\sassc_win64.exe
+    7z a %APPVEYOR_BUILD_FOLDER%\sassc_win64.zip %cd%\bin\sassc.exe > nul
 
 test: off
 artifacts:
-- path: sassc_win32.exe
-- path: sassc_win64.exe
+- path: sassc_win32.zip
+- path: sassc_win64.zip
