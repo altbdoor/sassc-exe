@@ -1,7 +1,7 @@
 version: '{build}'
 environment:
-  SASSC_BRANCH: 3.4.5
-  LIBSASS_BRANCH: 3.4.5
+  SASSC_BRANCH: 3.4.7
+  LIBSASS_BRANCH: 3.4.7
 clone_script:
 - cmd: >-
     git clone -q --branch=%LIBSASS_BRANCH% --depth 1 https://github.com/sass/libsass.git
